@@ -1,4 +1,4 @@
-const API_URL = https://hydrotrack-backend.onrender.com
+const API_URL = https://hydrotrack-b3u4.onrender.com/
 
 const form = document.getElementById("predict-form");
 const result = document.getElementById("result");

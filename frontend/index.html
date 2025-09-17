@@ -1,181 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>HydroTrack — Water Consumption Predictor</title>
-  <link rel="stylesheet" href="style.css" />
-  <!-- Chart.js is used by script.js for charts -->
-  <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script defer src="script.js"></script> <!-- keep your script.js in the same folder -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HydroTrack – Predict Water Usage</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <header class="site-header">
-    <div class="container">
-      <div class="brand">
-        <div class="logo">💧</div>
-        <div>
-          <h1>HydroTrack</h1>
-          <p class="tag">Predictive water-consumption analytics for households & communities</p>
-        </div>
-      </div>
-    </div>
-  </header>
+  <div class="app-container">
+    <header>
+      <h1>HydroTrack</h1>
+      <p>Predict and visualize your household water consumption</p>
+    </header>
 
-  <main class="container main-grid">
-    <!-- Left column: interactive demo + charts -->
-    <section class="panel card">
-      <h2>Interactive Demo — Predict & Submit</h2>
-      <p class="muted">Enter household data to get a predicted monthly consumption. Submitting actual usage helps the model evolve.</p>
+    <main>
+      <section class="form-card">
+        <h2>Input Your Data</h2>
+        <form id="waterForm">
+          <div class="input-group">
+            <label>Household Size</label>
+            <input type="number" name="household_size" required>
+          </div>
+          <div class="input-group">
+            <label>Number of Appliances</label>
+            <input type="number" name="appliances" required>
+          </div>
+          <div class="input-group">
+            <label>Outdoor Water Use (times/week)</label>
+            <input type="number" name="outdoor_use" required>
+          </div>
+          <div class="input-group">
+            <label>Daily Water Meter Reading (liters)</label>
+            <input type="number" name="daily_reading" required>
+          </div>
+          <button type="submit">Predict</button>
+        </form>
+      </section>
 
-      <form id="predict-form" class="form-grid" aria-label="Prediction form">
-        <label>
-          Household size (people)
-          <input id="household_size" type="number" min="1" required />
-        </label>
+      <section id="result" class="result-card hidden">
+        <h2>Prediction</h2>
+        <p id="predictionText"></p>
+      </section>
+    </main>
+  </div>
 
-        <label>
-          Number/type of water-using appliances (count)
-          <input id="appliances" type="number" min="0" required />
-        </label>
-
-        <label>
-          Frequency of outdoor water use (times/week)
-          <input id="outdoor_use" type="number" min="0" step="1" />
-        </label>
-
-        <label>
-          Monthly meter reading (m³)
-          <input id="meter_reading" type="number" min="0" step="0.01" required />
-        </label>
-
-        <label>
-          Income level (optional)
-          <select id="income_level">
-            <option value="">Prefer not to say</option>
-            <option value="low">Low</option>
-            <option value="middle">Middle</option>
-            <option value="high">High</option>
-          </select>
-        </label>
-
-        <label>
-          Season / Weather (optional)
-          <input id="season" type="text" placeholder="e.g. Dry, Wet, Monsoon" />
-        </label>
-
-        <div class="form-actions">
-          <button id="btn-predict" type="submit" class="btn primary">Predict</button>
-          <button id="btn-submit" type="button" class="btn ghost">Submit Actual Usage</button>
-          <button id="btn-retrain" type="button" class="btn outline">Retrain Model</button>
-        </div>
-
-        <div id="status" class="status" aria-live="polite"></div>
-      </form>
-
-      <div class="charts">
-        <div class="chart-card">
-          <h3>Actual vs Predicted</h3>
-          <canvas id="usageChart" aria-label="Actual vs Predicted usage chart"></canvas>
-        </div>
-
-        <div class="chart-card">
-          <h3>Variable Importance</h3>
-          <canvas id="importanceChart" aria-label="Variable importance chart"></canvas>
-        </div>
-      </div>
-    </section>
-
-    <!-- Right column: Program Outline document-style -->
-    <aside class="panel card docs">
-      <h2>HydroTrack – Program Outline</h2>
-
-      <h3>1. System Overview</h3>
-      <p>
-        HydroTrack is a predictive software tool designed to estimate household water consumption using Multiple Linear Regression (MLR).
-        It processes household and consumption data to generate forecasts, aiming to help families and policymakers improve water usage awareness and sustainability.
-      </p>
-
-      <h3>2. Core Features</h3>
-
-      <h4>2.1 User Data Input Module</h4>
-      <ul>
-        <li>Household size</li>
-        <li>Number/type of water-using appliances</li>
-        <li>Frequency of outdoor water use (gardening, car washing, etc.)</li>
-        <li>Daily/Monthly water meter readings</li>
-        <li>Optional: income level, seasonal/weather conditions</li>
-      </ul>
-
-      <h4>2.2 Data Management</h4>
-      <ul>
-        <li>Store household data and water consumption logs</li>
-        <li>Clean and validate inputs (check for missing/invalid values)</li>
-        <li>Support import/export (CSV, Excel)</li>
-      </ul>
-
-      <h4>2.3 Statistical Analysis</h4>
-      <ul>
-        <li>Run chosen Multiple Linear Regression model on input variables</li>
-        <li>Identify significant predictors of water consumption</li>
-        <li>Display model performance metrics (R², MAE, RMSE)</li>
-      </ul>
-
-      <h4>2.4 Prediction Engine (optional)</h4>
-      <ul>
-        <li>Forecast daily/monthly water consumption</li>
-        <li>Show predicted water bill (based on PPCWD rates) (optional)</li>
-        <li>Allow comparison between actual vs. predicted usage</li>
-      </ul>
-
-      <h4>2.5 Visualization & Reporting</h4>
-      <ul>
-        <li>Graphs for usage trends (daily, monthly)</li>
-        <li>Variable importance chart (which factors affect water use most)</li>
-        <li>Printable/exportable reports for households and barangay councils</li>
-      </ul>
-
-      <h4>2.6 User Interface</h4>
-      <ul>
-        <li>Web-based preferred (mobile-friendly)</li>
-        <li>Simple dashboards for households</li>
-        <li>Admin/analyst view for researchers (PPCWD or barangay councils in future)</li>
-      </ul>
-
-      <h4>2.7 Security & Ethics</h4>
-      <ul>
-        <li>Data anonymization for privacy</li>
-        <li>Secure login system</li>
-        <li>Compliance with ethical standards (informed consent, confidentiality)</li>
-      </ul>
-
-      <h3>3. Technical Requirements</h3>
-      <ul>
-        <li>Frontend: HTML/CSS/JavaScript (React or Vue optional)</li>
-        <li>Backend/API: Python (Flask or Django)</li>
-        <li>Database: SQLite/MySQL/PostgreSQL for structured data storage</li>
-        <li>Data Analysis: pandas, scikit-learn, statsmodels (model must be modifiable / replaceable)</li>
-        <li>Visualization: Chart.js / Recharts / Matplotlib</li>
-        <li>Deployment: Local server or cloud (AWS/GCP/school server)</li>
-      </ul>
-
-      <h3>4. Workflow</h3>
-      <ol>
-        <li>Data Collection: Household survey + water meter logs</li>
-        <li>Data Entry: User inputs or uploads dataset</li>
-        <li>Processing: Clean and structure the data</li>
-        <li>Model Training: Run MLR, determine coefficients & significant variables</li>
-        <li>Prediction: Generate household water consumption forecast</li>
-        <li>Visualization: Display graphs and reports</li>
-        <li>Feedback: Provide recommendations for water conservation</li>
-      </ol>
-    </aside>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <small>© HydroTrack — deployed on Render (backend) & Netlify (frontend)</small>
-    </div>
-  </footer>
+  <script src="script.js"></script>
 </body>
 </html>

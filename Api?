@@ -1,0 +1,84 @@
+from flask import Flask, request, jsonify
+from flask_cors import CORS
+import numpy as np
+from sklearn.linear_model import LinearRegression
+import os, json
+
+app = Flask(__name__)
+CORS(app)
+
+DATA_FILE = "data.json"
+
+# === Your baseline equation ===
+B0, B1, B2, B3 = 15, 12, 0.003, 7
+
+# --- Load or seed dataset ---
+if os.path.exists(DATA_FILE):
+    with open(DATA_FILE, "r") as f:
+        saved = json.load(f)
+        X_data = np.array(saved["X"])
+        y_data = np.array(saved["y"])
+else:
+    X_data = np.array([
+        [2, 15000, 3],
+        [3, 20000, 5],
+        [4, 25000, 6],
+        [5, 30000, 7],
+        [6, 40000, 8],
+    ])
+    y_data = B0 + (B1 * X_data[:, 0]) + (B2 * X_data[:, 1]) + (B3 * X_data[:, 2])
+
+model = LinearRegression()
+model.fit(X_data, y_data)
+
+def save_data():
+    with open(DATA_FILE, "w") as f:
+        json.dump({"X": X_data.tolist(), "y": y_data.tolist()}, f)
+
+@app.route("/api/predict", methods=["POST"])
+def predict():
+    data = request.json
+    household_size = float(data.get("household_size", 0))
+    income = float(data.get("income", 0))
+    appliances = float(data.get("appliances", 0))
+    prediction = model.predict([[household_size, income, appliances]])[0]
+    return jsonify({"success": True, "prediction": round(float(prediction), 2)})
+
+@app.route("/api/submit_data", methods=["POST"])
+def submit_data():
+    global X_data, y_data, model
+    data = request.json
+    household_size = float(data.get("household_size", 0))
+    income = float(data.get("income", 0))
+    appliances = float(data.get("appliances", 0))
+    usage = float(data.get("usage", 0))
+    X_new = np.array([[household_size, income, appliances]])
+    y_new = np.array([usage])
+    X_data = np.vstack([X_data, X_new])
+    y_data = np.concatenate([y_data, y_new])
+    model.fit(X_data, y_data)
+    save_data()
+    return jsonify({
+        "success": True,
+        "message": "Data submitted and model updated!",
+        "new_coefficients": model.coef_.tolist(),
+        "new_intercept": float(model.intercept_)
+    })
+
+@app.route("/api/equation", methods=["GET"])
+def get_equation():
+    coeffs = model.coef_.tolist()
+    intercept = float(model.intercept_)
+    eq = f"y = {intercept:.2f}"
+    variables = ["household_size", "income", "appliances"]
+    for c, v in zip(coeffs, variables):
+        eq += f" + ({c:.4f} × {v})"
+    return jsonify({
+        "success": True,
+        "equation": eq,
+        "coefficients": coeffs,
+        "intercept": intercept
+    })
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)

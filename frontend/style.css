@@ -1,38 +1,87 @@
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  background: #f2f9ff;
-  color: #333;
+/* L+Ratio */
+:root{
+  --bg-1: linear-gradient(180deg,#e6f7ff 0%, #fbfcff 100%);
+  --panel: #ffffff;
+  --muted: #6b7280;
+  --accent: #0077cc;
+  --accent-2: #005fa3;
+  --glass: rgba(255,255,255,0.6);
+  --radius: 12px;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: var(--bg-1);
+  color:#062433;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
 }
 
-header {
-  background: #0077cc;
-  color: white;
-  padding: 1rem;
-  text-align: center;
-}
+/* ---------- containers ---------- */
+.container{max-width:1100px;margin:0 auto;padding:20px}
 
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  max-width: 300px;
-  margin: 1rem auto;
+/* ---------- header ---------- */
+.site-header{
+  background: linear-gradient(90deg,var(--accent),var(--accent-2));
+  color:white;
+  padding:18px 0;
+  box-shadow:0 8px 20px rgba(2,6,23,0.08);
 }
+.brand{display:flex;align-items:center;gap:14px}
+.brand .logo{font-size:30px;margin-left:6px}
+.site-header .container{display:flex;align-items:center;justify-content:space-between}
+h1{font-size:22px;margin:0}
+.tag{opacity:0.95;margin-top:4px;font-size:13px}
 
-button {
-  background: #0077cc;
-  color: white;
-  padding: 0.5rem;
-  border: none;
-  cursor: pointer;
-}
-button:hover {
-  background: #005fa3;
-}
+/* ---------- layout ---------- */
+.main-grid{display:grid;grid-template-columns:1fr 420px;gap:22px;padding:28px 0}
+@media (max-width:1000px){ .main-grid{grid-template-columns:1fr; padding:18px 0} }
 
-canvas {
-  max-width: 600px;
-  margin: 2rem auto;
-  display: block;
+/* ---------- card / panel styles ---------- */
+.panel{background:var(--panel);border-radius:var(--radius);padding:18px;box-shadow:0 12px 30px rgba(2,6,23,0.06);transition:transform .22s ease}
+.panel:hover{transform:translateY(-6px)}
+.muted{color:var(--muted);margin-bottom:12px}
+
+/* ---------- form ---------- */
+.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media (max-width:720px){ .form-grid{grid-template-columns:1fr} }
+
+label{display:block;font-weight:600;font-size:14px;color:#063246}
+label input,label select{margin-top:8px;padding:10px;border-radius:8px;border:1px solid #e6eef8;background:#fbfdff;width:100%;font-size:14px}
+.form-actions{grid-column:1/-1;display:flex;gap:10px;align-items:center;margin-top:6px}
+.btn{padding:10px 14px;border-radius:10px;border:none;cursor:pointer;font-weight:700}
+.btn.primary{background:var(--accent);color:white;box-shadow:0 8px 22px rgba(0,119,204,0.18)}
+.btn.ghost{background:transparent;border:1px solid #dbeefb;color:var(--accent)}
+.btn.outline{background:white;border:1px solid #d0e8ff;color:var(--accent)}
+.form-actions .status{margin-left:auto;color:var(--muted);font-weight:600}
+
+/* small helper */
+.status{margin-top:8px;color:var(--muted);font-weight:600}
+
+/* ---------- charts ---------- */
+.charts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+@media (max-width:720px){ .charts{grid-template-columns:1fr} }
+.chart-card{padding:12px;border-radius:10px;background:linear-gradient(180deg,#ffffff,#fbfdff);box-shadow:0 8px 16px rgba(2,6,23,0.04)}
+.chart-card h3{margin:6px 0 10px 0;color:var(--accent)}
+
+/* ---------- docs panel ---------- */
+.docs h2{margin-top:0}
+.docs h3{color:var(--accent);margin-bottom:6px}
+.docs h4{margin:10px 0 6px 0}
+.docs ul, .docs ol{margin-left:18px;color:#183a4a}
+.docs li{margin:6px 0}
+
+/* ---------- footer ---------- */
+.site-footer{padding:14px 0;text-align:center;color:var(--muted);margin-top:18px}
+
+/* ---------- micro-animations ---------- */
+@keyframes floatUp {
+  from { transform: translateY(8px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
+.panel, .chart-card, .docs{animation:floatUp .5s ease both}
+
+/* focus styles for accessibility */
+input:focus, select:focus, button:focus{outline:3px solid rgba(3,102,214,0.14);outline-offset:3px}

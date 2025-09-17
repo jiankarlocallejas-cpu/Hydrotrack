@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HydroTrack - Water Consumption Predictor</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>💧 HydroTrack</h1>
+    <p>Predict and Track Household Water Consumption</p>
+  </header>
+
+  <main>
+    <section class="form-section">
+      <h2>Enter Household Data</h2>
+      <form id="predict-form">
+        <label>Household Size:
+          <input type="number" id="household_size" required />
+        </label>
+        <label>Income:
+          <input type="number" id="income" required />
+        </label>
+        <label>Lot Area:
+          <input type="number" id="lot_area" required />
+        </label>
+        <button type="submit">Predict</button>
+      </form>
+      <p id="result"></p>
+    </section>
+
+    <section>
+      <h2>Prediction Trend</h2>
+      <canvas id="chart"></canvas>
+    </section>
+  </main>
+
+  <footer>
+    <p>HydroTrack © 2025</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

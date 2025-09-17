@@ -1,5 +1,4 @@
-/* L+Ratio */
-/* Fonts & Resets */
+/* Fonts & Reset */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -8,8 +7,8 @@
 
 body {
   font-family: 'Inter', sans-serif;
-  background: linear-gradient(135deg, #6a11cb, #2575fc);
-  color: #fff;
+  background: linear-gradient(145deg, #d0e8f2, #ffffff);
+  color: #1a2a3a;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -19,41 +18,40 @@ body {
 /* Container */
 .app-container {
   width: 95%;
-  max-width: 600px;
+  max-width: 650px;
   text-align: center;
   padding: 2rem;
 }
 
 /* Header */
 header h1 {
-  font-size: 2.5rem;
+  font-size: 2.8rem;
   font-weight: 700;
   margin-bottom: 0.5rem;
-  text-shadow: 1px 1px 10px rgba(0,0,0,0.4);
+  color: #0d3b66;
   animation: fadeDown 1s ease forwards;
 }
 
 header p {
   margin-bottom: 2rem;
   font-weight: 500;
-  color: #f0f0f0;
+  color: #1a2a3a;
   animation: fadeDown 1.2s ease forwards;
 }
 
-/* Form Card */
+/* Form Card & Result Card */
 .form-card, .result-card {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
+  background: #ffffff;
   border-radius: 20px;
   padding: 2rem;
   margin-bottom: 2rem;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .form-card:hover, .result-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 12px 25px rgba(0,0,0,0.4);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.12);
 }
 
 /* Inputs */
@@ -62,14 +60,26 @@ header p {
   margin-bottom: 1rem;
 }
 
+label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  color: #0d3b66;
+}
+
 input {
   width: 100%;
   padding: 0.6rem 0.8rem;
-  margin-top: 0.3rem;
   border-radius: 8px;
-  border: none;
+  border: 1px solid #cdd9e5;
   outline: none;
   font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+input:focus {
+  border-color: #1ca7ec;
+  box-shadow: 0 0 8px rgba(28,167,236,0.3);
 }
 
 /* Button */
@@ -78,8 +88,8 @@ button {
   padding: 0.8rem;
   border: none;
   border-radius: 12px;
-  background: #ff9800;
-  color: #000;
+  background: #1ca7ec;
+  color: #fff;
   font-weight: 700;
   font-size: 1rem;
   cursor: pointer;
@@ -87,7 +97,7 @@ button {
 }
 
 button:hover {
-  background: #ffc107;
+  background: #0d95d4;
   transform: scale(1.05);
 }
 

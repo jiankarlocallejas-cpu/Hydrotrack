@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:5000"; // change to Render backend URL when deployed
+const API_URL = https://hydrotrack-backend.onrender.com
 
 const form = document.getElementById("predict-form");
 const result = document.getElementById("result");

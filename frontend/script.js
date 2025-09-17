@@ -1,4 +1,4 @@
-//I luv cats ❤
+// I luv cats ❤ Signed - Jian in 09/17/25
 const API_URL = https://hydrotrack-b3u4.onrender.com/
 
 const form = document.getElementById("predict-form");

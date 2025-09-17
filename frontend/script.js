@@ -1,40 +1,36 @@
 // I luv cats ❤ Signed - Jian in 09/17/25
-const API_URL = https://hydrotrack-b3u4.onrender.com/
+const form = document.getElementById('waterForm');
+const resultDiv = document.getElementById('result');
+const predictionText = document.getElementById('predictionText');
 
-const form = document.getElementById("predict-form");
-const result = document.getElementById("result");
+const API_URL = "https://hydrotrack-b3u4.onrender.com/predict";
 
-let chartCtx = document.getElementById("chart").getContext("2d");
-let predictionChart = new Chart(chartCtx, {
-  type: "line",
-  data: {
-    labels: [],
-    datasets: [{
-      label: "Predicted Water Consumption",
-      data: [],
-      borderColor: "#0077cc",
-      fill: false
-    }]
-  }
-});
-
-form.addEventListener("submit", async (e) => {
+form.addEventListener('submit', async (e) => {
   e.preventDefault();
-  const household_size = document.getElementById("household_size").value;
-  const income = document.getElementById("income").value;
-  const lot_area = document.getElementById("lot_area").value;
 
-  const response = await fetch(`${API_URL}/predict`, {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({household_size, income, lot_area})
-  });
-  const data = await response.json();
+  const formData = new FormData(form);
+  const data = {
+    household_size: Number(formData.get('household_size')),
+    appliances: Number(formData.get('appliances')),
+    outdoor_use: Number(formData.get('outdoor_use')),
+    daily_reading: Number(formData.get('daily_reading'))
+  };
 
-  result.textContent = `Predicted Consumption: ${data.prediction.toFixed(2)} units`;
+  predictionText.textContent = "Calculating...";
+  resultDiv.classList.remove('hidden');
 
-  // Update chart
-  predictionChart.data.labels.push(`Entry ${predictionChart.data.labels.length+1}`);
-  predictionChart.data.datasets[0].data.push(data.prediction);
-  predictionChart.update();
+  try {
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(data)
+    });
+
+    if (!response.ok) throw new Error(`Server error: ${response.status}`);
+
+    const result = await response.json();
+    predictionText.textContent = `Estimated Monthly Water Consumption: ${result.prediction} liters`;
+  } catch (err) {
+    predictionText.textContent = `Error: ${err.message}`;
+  }
 });

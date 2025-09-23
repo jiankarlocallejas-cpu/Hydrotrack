@@ -1,46 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>HydroTrack - Water Consumption Predictor</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HydroTrack – Predict Water Usage</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <header>
-    <h1>💧 HydroTrack</h1>
-    <p>Predict and Track Household Water Consumption</p>
-  </header>
+  <div class="app-container">
+    <header>
+      <h1>HydroTrack</h1>
+      <p>Predict and visualize your household water consumption</p>
+    </header>
 
-  <main>
-    <section class="form-section">
-      <h2>Enter Household Data</h2>
-      <form id="predict-form">
-        <label>Household Size:
-          <input type="number" id="household_size" required />
-        </label>
-        <label>Income:
-          <input type="number" id="income" required />
-        </label>
-        <label>Lot Area:
-          <input type="number" id="lot_area" required />
-        </label>
-        <button type="submit">Predict</button>
-      </form>
-      <p id="result"></p>
-    </section>
+    <main>
+      <section class="form-card">
+        <h2>Input Your Data</h2>
+        <form id="waterForm">
+          <div class="input-group">
+            <label>Household Size</label>
+            <input type="number" name="household_size" required>
+          </div>
+          <div class="input-group">
+            <label>Number of Appliances</label>
+            <input type="number" name="appliances" required>
+          </div>
+          <div class="input-group">
+            <label>Outdoor Water Use (times/week)</label>
+            <input type="number" name="outdoor_use" required>
+          </div>
+          <div class="input-group">
+            <label>Daily Water Meter Reading (liters)</label>
+            <input type="number" name="daily_reading" required>
+          </div>
+          <button type="submit">Predict</button>
+        </form>
+      </section>
 
-    <section>
-      <h2>Prediction Trend</h2>
-      <canvas id="chart"></canvas>
-    </section>
-  </main>
+      <section id="result" class="result-card hidden">
+        <h2>Prediction</h2>
+        <p id="predictionText"></p>
+      </section>
+    </main>
+  </div>
 
-  <footer>
-    <p>HydroTrack © 2025</p>
-  </footer>
-
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

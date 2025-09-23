@@ -6,9 +6,8 @@ from sklearn.linear_model import LinearRegression
 from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
 
 app = Flask(__name__)
-CORS(app)  # Allow frontend to call backend
+CORS(app)  
 
-# Initial MLR coefficients (example)
 coef = {
     "household_size": 10.0,
     "appliances": 5.0,
